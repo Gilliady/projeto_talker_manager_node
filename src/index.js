@@ -1,5 +1,7 @@
 const express = require('express');
-const { getAll } = require('./fs_scripts/getters_fs');
+const { getAll,
+  getById,
+} = require('./fs_scripts/getters_fs');
 
 const app = express();
 app.use(express.json());
@@ -15,6 +17,15 @@ app.get('/', (_request, response) => {
 app.get('/talker', async (_req, response) => {
   const selection = await getAll();
   response.status(HTTP_OK_STATUS).json(JSON.parse(selection));
+});
+app.get('/talker/:id', async (req, response) => {
+  const selection = await getById(req.params.id);
+  if (selection) {
+    response.status(HTTP_OK_STATUS)
+        .json(selection);
+    return;
+  }
+  response.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
 
 app.listen(PORT, () => {
