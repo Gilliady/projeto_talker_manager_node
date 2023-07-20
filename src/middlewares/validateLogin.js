@@ -1,7 +1,6 @@
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const validateEmail = (req, res, next) => {
-    const { body } = req;
+const validateEmail = ({ body }, res, next) => {
     try {
         if (body.email && body.email.length > 0) {
             if (emailRegex.test(body.email)) {
