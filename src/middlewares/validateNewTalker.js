@@ -96,7 +96,7 @@ const validateRate = ({ body }, res, next) => {
       .json({ message: e.message });
   }
 };
-const validateTalker = [
+const validateNewTalker = [
   validateToken,
   validateName,
   validateAge,
@@ -104,4 +104,4 @@ const validateTalker = [
   validateWatchedAt,
   validateRate,
 ];
-module.exports = { validateTalker };
+module.exports = { validateNewTalker };
