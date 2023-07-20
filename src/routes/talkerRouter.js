@@ -1,6 +1,6 @@
 const express = require('express');
 const { validateNewTalker } = require('../middlewares/validateNewTalker');
-const { setNewTalker, updateTalker } = require('../fs_scripts/setters_fs');
+const { setNewTalker, updateTalker, deleteTalker } = require('../fs_scripts/setters_fs');
 const { getById } = require('../fs_scripts/getters_fs');
 const { returnAllAsJSON } = require('../utils');
 
@@ -35,6 +35,12 @@ router.get('/talker/:id', async (req, res) => {
             .json(selection);
     }
     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+});
+
+router.delete('/talker/:id', validateNewTalker[0], async (req, res) => {
+    const { id } = req.params;
+    await deleteTalker(id);
+    return res.status(204).json({ message: 'Pessoa palestrante deletada com sucesso' });
 });
 
 module.exports = router;

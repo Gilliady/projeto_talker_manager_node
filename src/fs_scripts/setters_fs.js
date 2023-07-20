@@ -25,7 +25,14 @@ const updateTalker = async (id, talker) => {
     return updatedTalker;
 };
 
+const deleteTalker = async (id) => {
+    const selection = await returnAllAsJSON();
+    const newSelection = selection.filter((talker) => talker.id !== Number(id));
+    await fs.writeFile(join(__dirname, '../talker.json'), JSON.stringify(newSelection));
+};
+
 module.exports = {
     setNewTalker,
     updateTalker,
+    deleteTalker,
 };
