@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const { getAll,
   getById,
 } = require('./fs_scripts/getters_fs');
+const { validateLogin } = require('./middlewares/validateLogin');
 
 const app = express();
 app.use(express.json());
@@ -15,7 +16,7 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.post('/login', (req, response) => {
+app.post('/login', validateLogin, (req, response) => {
   const { email, password } = req.body;
   const token = crypto.randomBytes(8).toString('hex');
   response.status(HTTP_OK_STATUS).json({ token });
