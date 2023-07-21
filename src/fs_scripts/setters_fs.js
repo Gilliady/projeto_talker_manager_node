@@ -15,11 +15,18 @@ const updateTalker = async (id, talker) => {
     const talkers = await returnAllAsJSON();
     const toUptadeTalker = talkers.find((talk) => talk.id === Number(id));
     if (!toUptadeTalker) return null;
-    const updatedTalker = Object.assign(toUptadeTalker, talker);
-    talkers.forEach((element, i) => {
+    const updatedTalker = Object.assign(toUptadeTalker, talker.rate
+        ? {
+            talk: {
+                rate: talker.rate,
+                watchedAt: toUptadeTalker.talk.watchedAt,
+            },
+        } : talker);
+    talkers.map((element) => {
         if (element.id === Number(id)) {
-            talkers[i] = updatedTalker;
+            return updatedTalker;
         }
+        return element;
     });
     await fs.writeFile(join(path), JSON.stringify(talkers));
     return updatedTalker;

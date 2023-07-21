@@ -109,6 +109,19 @@ const validateRateOnSearch = ({ query }, res, next) => {
       .json({ message: e.message });
   }
 };
+const validateWatchedAtOnSearch = ({ query }, res, next) => {
+  try {
+  const { date = '' } = query;
+  if (date === '') return next();
+  if (!validateDate(date)) {
+    throw new Error('O parâmetro "date" deve ter o formato "dd/mm/aaaa"');
+  }
+  return next();
+} catch (e) {
+return res.status(400)
+  .json({ message: e.message });
+}
+};
 const validateNewTalker = [
   validateToken,
   validateName,
@@ -117,5 +130,6 @@ const validateNewTalker = [
   validateWatchedAt,
   validateRate,
   validateRateOnSearch,
+  validateWatchedAtOnSearch,
 ];
 module.exports = { validateNewTalker };
