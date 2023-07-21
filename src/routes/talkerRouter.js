@@ -18,6 +18,13 @@ router.post('/talker', validateNewTalker, async (req, res) => {
     return res.status(201).json({ ...req.body, id });
 });
 
+router.get('/talker/search', validateNewTalker[0], async (req, res) => {
+    const { q } = req.query;
+    const selection = await returnAllAsJSON();
+    const filteredSelection = selection.filter((talker) => talker.name.includes(q));
+    return res.status(HTTP_OK_STATUS).json(filteredSelection);
+});
+
 router.put('/talker/:id', validateNewTalker, async (req, res) => {
     const { id } = req.params;
     const updatedTalker = await updateTalker(id, req.body);
@@ -40,7 +47,8 @@ router.get('/talker/:id', async (req, res) => {
 router.delete('/talker/:id', validateNewTalker[0], async (req, res) => {
     const { id } = req.params;
     await deleteTalker(id);
-    return res.status(204).json({ message: 'Pessoa palestrante deletada com sucesso' });
+    return res.status(204).end();
 });
+
 
 module.exports = router;
