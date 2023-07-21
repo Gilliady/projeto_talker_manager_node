@@ -5,7 +5,7 @@ const { validateLogin } = require('./middlewares/validateLogin');
 const talkerRouter = require('./routes/talkerRouter');
 
 const connection = mysql.createPool({
-  host: process.env.MYSQL_HOST || 'db',
+  host: process.env.MYSQL_HOSTNAME || 'localhost',
   port: process.env.MYSQL_PORT || 3306,
   user: process.env.MYSQL_USER || 'root',
   password: process.env.MYSQL_PASSWORD || 'password',
@@ -33,7 +33,7 @@ app.get('/talker/db', async (_request, res) => {
   if (talkers) {
     return res.status(HTTP_OK_STATUS).json(talkers);
   }
-  res.status(404).json({ message: 'Not found' });
+  return res.status(404).json({ message: 'Not found' });
 });
 
 app.use(talkerRouter);

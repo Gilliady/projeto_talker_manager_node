@@ -4,7 +4,7 @@ const validateEmail = ({ body }, res, next) => {
     try {
         if (body.email && body.email.length > 0) {
             if (emailRegex.test(body.email)) {
-                next();
+                return next();
             }
             throw new Error('O "email" deve ter o formato "email@email.com"');
         }
@@ -19,7 +19,7 @@ const validatePassword = ({ body }, res, next) => {
     try {
         if (body.password && body.password.length > 0) {
             if (body.password.length > 6) {
-                next();
+                return next();
             }
             throw new Error('O "password" deve ter pelo menos 6 caracteres');
         }

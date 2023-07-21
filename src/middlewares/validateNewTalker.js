@@ -34,11 +34,11 @@ const validateAge = ({ body }, res, next) => {
     if (!body.age) {
       throw new Error('O campo "age" é obrigatório');
     }
-      if (body.age < 18
-        || !Number.isInteger(body.age)) {
-          throw new Error('O campo "age" deve ser um número inteiro igual ou maior que 18');
-        }
-        return next();
+    if (body.age < 18
+      || !Number.isInteger(body.age)) {
+      throw new Error('O campo "age" deve ser um número inteiro igual ou maior que 18');
+    }
+    return next();
   } catch (e) {
     return res.status(400)
       .json({ message: e.message });
@@ -69,10 +69,10 @@ const validateWatchedAt = ({ body }, res, next) => {
     if (!body.talk.watchedAt) {
       throw new Error('O campo "watchedAt" é obrigatório');
     }
-      if (!validateDate(body.talk.watchedAt)) {
-        throw new Error('O campo "watchedAt" deve ter o formato "dd/mm/aaaa"');
-      }
-      return next();
+    if (!validateDate(body.talk.watchedAt)) {
+      throw new Error('O campo "watchedAt" deve ter o formato "dd/mm/aaaa"');
+    }
+    return next();
   } catch (e) {
     return res.status(400)
       .json({ message: e.message });
@@ -88,9 +88,9 @@ const validateRate = ({ body }, res, next) => {
       throw new Error('O campo "rate" é obrigatório');
     }
     if (!Number.isInteger(talk.rate) || !isBetween(talk.rate, 1, 5)) {
-        throw new Error('O campo "rate" deve ser um número inteiro entre 1 e 5');
-      }
-      return next();
+      throw new Error('O campo "rate" deve ser um número inteiro entre 1 e 5');
+    }
+    return next();
   } catch (e) {
     return res.status(400)
       .json({ message: e.message });
@@ -111,16 +111,16 @@ const validateRateOnSearch = ({ query }, res, next) => {
 };
 const validateWatchedAtOnSearch = ({ query }, res, next) => {
   try {
-  const { date = '' } = query;
-  if (date === '') return next();
-  if (!validateDate(date)) {
-    throw new Error('O parâmetro "date" deve ter o formato "dd/mm/aaaa"');
+    const { date = '' } = query;
+    if (date === '') return next();
+    if (!validateDate(date)) {
+      throw new Error('O parâmetro "date" deve ter o formato "dd/mm/aaaa"');
+    }
+    return next();
+  } catch (e) {
+    return res.status(400)
+      .json({ message: e.message });
   }
-  return next();
-} catch (e) {
-return res.status(400)
-  .json({ message: e.message });
-}
 };
 const validateNewTalker = [
   validateToken,
