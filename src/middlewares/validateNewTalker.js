@@ -96,6 +96,19 @@ const validateRate = ({ body }, res, next) => {
       .json({ message: e.message });
   }
 };
+
+const validateRateOnSearch = ({ query }, res, next) => {
+  try {
+    const { rate = 3 } = query;
+    if ((!Number.isInteger(Number(rate)) || !isBetween(rate, 1, 5))) {
+      throw new Error('O campo "rate" deve ser um número inteiro entre 1 e 5');
+    }
+    return next();
+  } catch (e) {
+    return res.status(400)
+      .json({ message: e.message });
+  }
+};
 const validateNewTalker = [
   validateToken,
   validateName,
@@ -103,5 +116,6 @@ const validateNewTalker = [
   validateTalk,
   validateWatchedAt,
   validateRate,
+  validateRateOnSearch,
 ];
 module.exports = { validateNewTalker };

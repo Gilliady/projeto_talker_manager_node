@@ -18,11 +18,20 @@ router.post('/talker', validateNewTalker, async (req, res) => {
     return res.status(201).json({ ...req.body, id });
 });
 
-router.get('/talker/search', validateNewTalker[0], async (req, res) => {
-    const { q } = req.query;
-    const selection = await returnAllAsJSON();
-    const filteredSelection = selection.filter((talker) => talker.name.includes(q));
-    return res.status(HTTP_OK_STATUS).json(filteredSelection);
+router.get('/talker/search', [validateNewTalker[0], validateNewTalker[6]], async (req, res) => {
+    const { q = '', rate, date = '' } = req.query;
+    let selection = await returnAllAsJSON();
+    if (q !== '') {
+        selection = selection.filter((talker) => talker.name.toUpperCase().includes(q.toUpperCase()));
+    }
+    if (rate) {
+        selection = selection.filter((talker) => talker.talk.rate === Number(rate));
+    }
+    if (date !== '') {
+        selection = selection.filter((talker) => talker.watchedAt.includes(date));
+    }
+
+    return res.status(HTTP_OK_STATUS).json(selection);
 });
 
 router.put('/talker/:id', validateNewTalker, async (req, res) => {
